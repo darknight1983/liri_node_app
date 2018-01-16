@@ -3,7 +3,7 @@
 require("dotenv").config(); // Code to read and set any environment variables with the dotenv package.
 const fs = require('fs');
 const keys = require('./keys.js');
-const request = require('request');
+const request = require('request-promise');
 const Twitter = require('twitter');
 const Spotify = require('node-spotify-api');
 const liriArg = process.argv[2];
@@ -18,6 +18,8 @@ switch(liriArg) {
   case "spotify-this-song":
     grabSong();
     break;
+  case "movie-this":
+    grabMovie();
 }
 
 
@@ -70,6 +72,31 @@ function grabSong() {
     .catch((err) => {
       console.log(err);
     })
+ }
 
+ function grabMovie() {
+   // Grab the movie/query from process.argv[3] or set movie if neccasary.
+   let movie = process.argv[3] || "Remember the Titans";
 
+  // Use the request() to make a get request to OMDB API.
+  request(`http://www.omdbapi.com/?apikey=adfcd5b7&t=${movie}`)
+    .then((data) => {
+      // Parse the string 'data'
+      data = JSON.parse(data);
+
+      let movieInfo = `
+        Title: ${data["Title"]}
+        Year: ${data.Year}
+        IMDB Rating: ${data.imdbRating}
+        Rotten Tomatoes Rating: ${data["Ratings"][1].Value}
+        Country: ${data.Country}
+        Language: ${data.Language}
+        Plot: ${data.Plot}
+        Actors: ${data.Actors.split(',')}
+      `;
+      console.log(movieInfo)
+    })
+    .catch((err) => {
+      console.log(err)
+    })
  }
