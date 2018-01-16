@@ -56,14 +56,14 @@ function grabSong() {
     secret: keys.spotify.secret
   });
 
-  spotify.search({type: "track", query: song })
+  spotify.search({type: "track", query: song || "Flash Lights" })
     .then((data) => {
       let track = data.tracks.items[0];
-      console.log(track)
       let trackInfo = `
         Artist: ${track.artists[0].name}
         Song Name: ${track.name}
         Preview: ${track.external_urls.spotify}
+        Album: ${track.album.name}
       `;
       console.log(trackInfo)
     })
