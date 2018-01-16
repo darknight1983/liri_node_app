@@ -20,31 +20,41 @@ switch(liriArg) {
     break;
   case "movie-this":
     grabMovie();
+  case "do-what-it-says":
+    doIt();
 }
 
 
 
-// Function to request tweets from Twitter.
+// Function to request tweets from Twitter API.
 
 function grabTweets() {
   let client = new Twitter({
     consumer_key: keys.twitter.consumer_key,
     consumer_secret: keys.twitter.consumer_secret,
-    access_tokey_key: keys.twitter.access_token_key,
+    access_token_key: keys.twitter.access_token_key,
     access_token_secret: keys.twitter.access_token_secret
   });
 
-  let params = {screen_name: "CoodyMac"}
+  let params = {screen_name: "coodymac", count: 20 }
 
   client.get('statuses/user_timeline/', params, (error, tweets, response) => {
     if(error) {
       console.log(error);
     }
 
-    console.log(tweets)
+
+    // Loop through the tweets array.
+    tweets.forEach((tweet) => {
+      let tweetsInfo = `
+        text: ${tweet.text}
+        created_at: ${tweet.created_at}
+      `;
+      console.log(tweetsInfo)
+    })
   })
 }
-
+// Function to grab song from the Spotify API.
 function grabSong() {
   let song = process.argv[3];
 
@@ -76,7 +86,7 @@ function grabSong() {
 
  function grabMovie() {
    // Grab the movie/query from process.argv[3] or set movie if neccasary.
-   let movie = process.argv[3] || "Remember the Titans";
+   let movie = process.argv[3] || "Mr. Nobody";
 
   // Use the request() to make a get request to OMDB API.
   request(`http://www.omdbapi.com/?apikey=adfcd5b7&t=${movie}`)
@@ -99,4 +109,29 @@ function grabSong() {
     .catch((err) => {
       console.log(err)
     })
+ }
+
+ function doIt() {
+   fs.readFile('random.txt', 'utf-8', (err, data) => {
+     if (err) {
+       console.log(err);
+     }
+
+     data = data.split(',');
+     let command = data[0];
+     let option = data[1];
+
+     switch(command) {
+       case "my-tweets":
+         grabTweets();
+         break;
+       case "spotify-this-song":
+         grabSong();
+         break;
+       case "movie-this":
+         grabMovie();
+       case "do-what-it-says":
+         doIt();
+     }
+   })
  }
