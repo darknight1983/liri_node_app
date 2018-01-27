@@ -1,9 +1,9 @@
 
 
-#LIRI_NODE_APP
+# LIRI_NODE_APP
 
 
-Install these npm packages.
+**Install these npm packages.**
 
 * npm install twitter
 * npm install node-spotify-api
@@ -11,7 +11,7 @@ Install these npm packages.
 * npm install dotenv
 
 
-Commands to run LIRI:
+**Commands to run LIRI:**
 
 * my-tweets
 
@@ -35,6 +35,6 @@ Commands to run LIRI:
 
 
 
-#Copyright
+# Copyright
 
 Jacolby Green (C) 2018. All Rights Reserved
