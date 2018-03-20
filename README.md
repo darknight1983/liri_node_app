@@ -3,13 +3,6 @@
 # LIRI_NODE_APP
 
 
-**Install these npm packages.**
-
-* npm install twitter
-* npm install node-spotify-api
-* npm install request-promise
-* npm install dotenv
-
 ## Getting Started
 
 - Clone down repo.
